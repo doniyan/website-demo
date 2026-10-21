@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Dashboard CMS Admin - SDN 2 Karangmangu</title>
+  <meta name="description" content="Dashboard Pengelolaan Konten Terpadu SD Negeri 2 Karangmangu."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "outline": "#757684",
+            "surface-tint": "#3755c3",
+            "on-error": "#ffffff",
+            "secondary-fixed": "#ffddb8",
+            "on-tertiary-fixed": "#002113",
+            "on-surface-variant": "#444653",
+            "outline-variant": "#c4c5d5",
+            "on-surface": "#0b1c30",
+            "surface-bright": "#f8f9ff",
+            "on-tertiary-container": "#3fd298",
+            "on-primary-fixed": "#001453",
+            "on-secondary-container": "#684000",
+            "on-secondary-fixed": "#2a1700",
+            "surface": "#f8f9ff",
+            "surface-container-low": "#eff4ff",
+            "surface-variant": "#d3e4fe",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-fixed-variant": "#173bab",
+            "surface-container": "#e5eeff",
+            "on-background": "#0b1c30",
+            "on-tertiary-fixed-variant": "#005236",
+            "background": "#f8f9ff",
+            "on-secondary": "#ffffff",
+            "surface-dim": "#cbdbf5",
+            "on-primary": "#ffffff",
+            "tertiary-fixed-dim": "#4edea3",
+            "surface-container-high": "#dce9ff",
+            "error": "#ba1a1a",
+            "on-primary-container": "#a8b8ff",
+            "surface-container-highest": "#d3e4fe",
+            "on-secondary-fixed-variant": "#653e00",
+            "tertiary-container": "#00563a",
+            "inverse-on-surface": "#eaf1ff",
+            "secondary": "#855300",
+            "primary-container": "#1e40af",
+            "primary": "#00288e",
+            "secondary-container": "#fea619",
+            "on-tertiary": "#ffffff",
+            "tertiary": "#003d27",
+            "primary-fixed": "#dde1ff",
+            "error-container": "#ffdad6",
+            "primary-fixed-dim": "#b8c4ff",
+            "tertiary-fixed": "#6ffbbe",
+            "inverse-primary": "#b8c4ff",
+            "inverse-surface": "#213145",
+            "secondary-fixed-dim": "#ffb95f",
+            "on-error-container": "#93000a"
+          },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+          spacing: { "space-sm": "0.5rem", "space-md": "1rem", "space-xs": "0.25rem", "gutter": "1.5rem", "space-xl": "2.5rem", "space-lg": "1.5rem", "margin": "2rem" },
+          fontFamily: {
+            "headline-xl": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-lg": ["Inter", "sans-serif"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+            "display-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"],
+            "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-sm": ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased">
+  
+  <!-- Sidebar Navigation (Desktop Fixed, Mobile Drawer) -->
+  <aside id="admin-sidebar" class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)] transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+    <div class="flex flex-col">
+      <!-- Brand Logo in Sidebar -->
+      <div class="h-20 px-space-md flex items-center justify-between bg-surface-container-lowest/80 border-b border-surface-container">
+        <div class="flex items-center gap-space-xs">
+          <img alt="Logo SDN 2 Karangmangu" class="h-8 w-auto object-contain" src="assets/images/logo/logo.svg" onerror="this.onerror=null; this.src='assets/images/logo/logo.svg';"/>
+          <div class="flex flex-col">
+            <span class="font-headline-sm text-headline-sm text-primary tracking-tight leading-tight">SDN 2 KRM</span>
+            <span class="font-label-sm text-[11px] text-on-surface-variant">Portal CMS Admin</span>
+          </div>
+        </div>
+        <button id="sidebar-close-btn" class="lg:hidden p-1 text-on-surface-variant hover:text-on-surface">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <div class="px-space-md py-space-sm">
+        <span class="font-label-sm text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Modul Manajemen</span>
+      </div>
+
+      <!-- Navigation List -->
+      <nav class="flex-1 px-space-sm space-y-1 overflow-y-auto max-h-[calc(100vh-180px)]">
+        <button data-admin-tab="dashboard" onclick="switchAdminTab('dashboard')" class="w-full flex items-center px-space-md py-2.5 rounded-xl transition-all gap-space-xs text-left bg-primary-container text-on-primary font-bold">
+          <span class="material-symbols-outlined text-[20px]">dashboard</span>
+          <span>Dashboard</span>
+        </button>
+        <button data-admin-tab="news" onclick="switchAdminTab('news')" class="w-full flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all gap-space-xs text-left">
+          <span class="material-symbols-outlined text-[20px]">feed</span>
+          <span>Berita &amp; Artikel</span>
+        </button>
+        <button data-admin-tab="announcements" onclick="switchAdminTab('announcements')" class="w-full flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all gap-space-xs text-left">
+          <span class="material-symbols-outlined text-[20px]">campaign</span>
+          <span>Pengumuman</span>
+        </button>
+        <button data-admin-tab="teachers" onclick="switchAdminTab('teachers')" class="w-full flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all gap-space-xs text-left">
+          <span class="material-symbols-outlined text-[20px]">groups</span>
+          <span>Guru &amp; Staf</span>
+        </button>
+        <button data-admin-tab="agenda" onclick="switchAdminTab('agenda')" class="w-full flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all gap-space-xs text-left">
+          <span class="material-symbols-outlined text-[20px]">event</span>
+          <span>Kalender Agenda</span>
+        </button>
+        <button data-admin-tab="gallery" onclick="switchAdminTab('gallery')" class="w-full flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all gap-space-xs text-left">
+          <span class="material-symbols-outlined text-[20px]">photo_library</span>
+          <span>Galeri Foto</span>
+        </button>
+        <button data-admin-tab="achievements" onclick="switchAdminTab('achievements')" class="w-full flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all gap-space-xs text-left">
+          <span class="material-symbols-outlined text-[20px]">military_tech</span>
+          <span>Prestasi Siswa</span>
+        </button>
+        <button data-admin-tab="ppdb" onclick="switchAdminTab('ppdb')" class="w-full flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all gap-space-xs text-left">
+          <span class="material-symbols-outlined text-[20px]">how_to_reg</span>
+          <span>Pendaftar PPDB</span>
+        </button>
+        <button data-admin-tab="messages" onclick="switchAdminTab('messages')" class="w-full flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all gap-space-xs text-left">
+          <span class="material-symbols-outlined text-[20px]">mail</span>
+          <span>Pesan Masuk</span>
+        </button>
+        <button data-admin-tab="settings" onclick="switchAdminTab('settings')" class="w-full flex items-center px-space-md py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all gap-space-xs text-left">
+          <span class="material-symbols-outlined text-[20px]">settings</span>
+          <span>Pengaturan &amp; Backup</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Back to Public Site Link -->
+    <div class="p-space-md bg-surface-container-lowest/70 border-t border-surface-container">
+      <a class="flex items-center gap-space-xs text-on-surface-variant hover:text-primary font-label-md text-label-md py-space-xs" href="index.html">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        <span>Ke Website Publik</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <div class="lg:pl-64">
+    <!-- Top Header Bar -->
+    <header class="fixed top-0 left-0 lg:left-64 right-0 h-20 bg-surface-container-lowest/90 backdrop-blur-xl z-40 flex items-center justify-between px-space-md sm:px-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-surface-container">
+      <div class="flex items-center gap-space-sm">
+        <button id="sidebar-toggle-btn" class="lg:hidden p-2 rounded-xl bg-surface-container text-primary">
+          <span class="material-symbols-outlined text-[24px]">menu</span>
+        </button>
+        <div class="flex flex-col">
+          <span class="font-label-lg text-label-lg text-primary font-bold">SDN 2 Karangmangu</span>
+          <span class="font-body-sm text-[12px] text-on-surface-variant hidden sm:inline">Panel Pengelolaan Konten Terpadu</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-space-sm sm:gap-space-md">
+        <!-- Live Clock -->
+        <div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-low font-label-sm text-on-surface">
+          <span class="material-symbols-outlined text-[16px] text-primary">schedule</span>
+          <span id="live-clock">Memuat...</span>
+        </div>
+
+        <!-- Admin Profile -->
+        <div class="flex items-center gap-2 bg-surface-container-low pl-2 pr-3 py-1.5 rounded-xl">
+          <div class="w-8 h-8 rounded-lg bg-primary-container text-on-primary flex items-center justify-center font-bold text-xs">
+            AD
+          </div>
+          <div class="flex flex-col text-left">
+            <span class="font-label-md text-label-md text-on-surface leading-tight font-semibold" id="admin-display-name">admin</span>
+            <span class="font-body-sm text-[11px] text-on-surface-variant">Administrator</span>
+          </div>
+          <button class="ml-2 p-1.5 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded-lg transition-colors" id="btn-logout" title="Keluar Sesi">
+            <span class="material-symbols-outlined text-[18px]">logout</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Body -->
+    <main class="w-full pt-24 px-space-md sm:px-space-lg pb-space-xl">
+      <!-- Breadcrumb Bar -->
+      <div class="flex items-center gap-2 font-label-md text-on-surface-variant mb-space-md">
+        <span>Admin CMS</span>
+        <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+        <span class="text-primary font-bold" id="active-breadcrumb-label">Dashboard Ringkasan</span>
+      </div>
+
+      <!-- ================= TAB 1: DASHBOARD VIEW ================= -->
+      <div id="view-dashboard-summary" class="space-y-space-lg">
+        <!-- Bento Metrics Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+          <!-- Card Berita -->
+          <div class="p-space-md rounded-2xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col justify-between cursor-pointer hover:shadow-md transition-shadow" onclick="switchAdminTab('news')">
+            <div class="flex items-center justify-between">
+              <span class="font-label-md text-on-surface-variant">Berita Terbit</span>
+              <div class="w-10 h-10 rounded-xl bg-primary-fixed text-primary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[20px]">feed</span>
+              </div>
+            </div>
+            <div class="mt-space-md">
+              <span class="font-headline-lg text-headline-lg font-bold text-on-surface" id="stat-news">0</span>
+              <div class="text-[12px] text-emerald-700 font-semibold mt-0.5">Aktif di website</div>
+            </div>
+          </div>
+
+          <!-- Card Pengumuman -->
+          <div class="p-space-md rounded-2xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col justify-between cursor-pointer hover:shadow-md transition-shadow" onclick="switchAdminTab('announcements')">
+            <div class="flex items-center justify-between">
+              <span class="font-label-md text-on-surface-variant">Pengumuman</span>
+              <div class="w-10 h-10 rounded-xl bg-secondary-fixed text-secondary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[20px]">campaign</span>
+              </div>
+            </div>
+            <div class="mt-space-md">
+              <span class="font-headline-lg text-headline-lg font-bold text-on-surface" id="stat-announcements">0</span>
+              <div class="text-[12px] text-secondary font-semibold mt-0.5">Surat edaran</div>
+            </div>
+          </div>
+
+          <!-- Card Guru -->
+          <div class="p-space-md rounded-2xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col justify-between cursor-pointer hover:shadow-md transition-shadow" onclick="switchAdminTab('teachers')">
+            <div class="flex items-center justify-between">
+              <span class="font-label-md text-on-surface-variant">Guru &amp; Staf</span>
+              <div class="w-10 h-10 rounded-xl bg-surface-container-high text-primary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[20px]">school</span>
+              </div>
+            </div>
+            <div class="mt-space-md">
+              <span class="font-headline-lg text-headline-lg font-bold text-on-surface" id="stat-teachers">0</span>
+              <div class="text-[12px] text-on-surface-variant font-semibold mt-0.5">Data pendidik</div>
+            </div>
+          </div>
+
+          <!-- Card Agenda -->
+          <div class="p-space-md rounded-2xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col justify-between cursor-pointer hover:shadow-md transition-shadow" onclick="switchAdminTab('agenda')">
+            <div class="flex items-center justify-between">
+              <span class="font-label-md text-on-surface-variant">Agenda Sekolah</span>
+              <div class="w-10 h-10 rounded-xl bg-surface-variant text-primary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[20px]">calendar_month</span>
+              </div>
+            </div>
+            <div class="mt-space-md">
+              <span class="font-headline-lg text-headline-lg font-bold text-on-surface" id="stat-agenda">0</span>
+              <div class="text-[12px] text-primary font-semibold mt-0.5">Jadwal kegiatan</div>
+            </div>
+          </div>
+
+          <!-- Card PPDB Registrations -->
+          <div class="p-space-md rounded-2xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col justify-between cursor-pointer hover:shadow-md transition-shadow" onclick="switchAdminTab('ppdb')">
+            <div class="flex items-center justify-between">
+              <span class="font-label-md text-on-surface-variant">Pendaftar PPDB</span>
+              <div class="w-10 h-10 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center">
+                <span class="material-symbols-outlined text-[20px]">how_to_reg</span>
+              </div>
+            </div>
+            <div class="mt-space-md">
+              <span class="font-headline-lg text-headline-lg font-bold text-on-surface" id="stat-ppdb-regs">0</span>
+              <div class="text-[12px] text-tertiary font-semibold mt-0.5">Calon siswa masuk</div>
+            </div>
+          </div>
+
+          <!-- Card Pesan Tamu -->
+          <div class="p-space-md rounded-2xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col justify-between cursor-pointer hover:shadow-md transition-shadow" onclick="switchAdminTab('messages')">
+            <div class="flex items-center justify-between">
+              <span class="font-label-md text-on-surface-variant">Pesan Masuk</span>
+              <div class="w-10 h-10 rounded-xl bg-secondary-container text-on-secondary-fixed flex items-center justify-center">
+                <span class="material-symbols-outlined text-[20px]">mail</span>
+              </div>
+            </div>
+            <div class="mt-space-md">
+              <span class="font-headline-lg text-headline-lg font-bold text-on-surface" id="stat-messages">0</span>
+              <div class="text-[12px] text-secondary font-semibold mt-0.5">Buku tamu online</div>
+            </div>
+          </div>
+
+          <!-- Card Galeri -->
+          <div class="p-space-md rounded-2xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col justify-between cursor-pointer hover:shadow-md transition-shadow" onclick="switchAdminTab('gallery')">
+            <div class="flex items-center justify-between">
+              <span class="font-label-md text-on-surface-variant">Galeri Foto</span>
+              <div class="w-10 h-10 rounded-xl bg-primary-fixed text-primary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[20px]">photo_library</span>
+              </div>
+            </div>
+            <div class="mt-space-md">
+              <span class="font-headline-lg text-headline-lg font-bold text-on-surface" id="stat-gallery">0</span>
+              <div class="text-[12px] text-primary font-semibold mt-0.5">Album dokumentasi</div>
+            </div>
+          </div>
+
+          <!-- Card Prestasi -->
+          <div class="p-space-md rounded-2xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col justify-between cursor-pointer hover:shadow-md transition-shadow" onclick="switchAdminTab('achievements')">
+            <div class="flex items-center justify-between">
+              <span class="font-label-md text-on-surface-variant">Prestasi Terdata</span>
+              <div class="w-10 h-10 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center">
+                <span class="material-symbols-outlined text-[20px]">military_tech</span>
+              </div>
+            </div>
+            <div class="mt-space-md">
+              <span class="font-headline-lg text-headline-lg font-bold text-on-surface" id="stat-achievements">0</span>
+              <div class="text-[12px] text-tertiary font-semibold mt-0.5">Tropi kejuaraan</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activities & Google Sheets Integration Card -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+          <!-- Left: Recent Activities -->
+          <div class="lg:col-span-7 bg-surface-container-lowest p-space-lg rounded-2xl border border-surface-container shadow-sm space-y-space-md">
+            <div class="flex items-center justify-between">
+              <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Aktivitas Terkini</h3>
+              <span class="text-xs text-on-surface-variant">Real-time LocalStorage</span>
+            </div>
+            <div class="space-y-2" id="recent-activities-list">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Right: Google Apps Script + Google Sheets Readiness Box -->
+          <div class="lg:col-span-5 bg-gradient-to-br from-primary to-primary-container text-on-primary p-space-lg rounded-2xl shadow-md space-y-space-sm flex flex-col justify-between">
+            <div class="space-y-space-sm">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary-container text-[28px]">table_chart</span>
+                <h3 class="font-headline-sm text-headline-sm font-bold text-on-primary">Integrasi Google Sheets</h3>
+              </div>
+              <p class="font-body-sm text-primary-fixed-dim leading-relaxed">
+                Struktur data CMS SDN 2 Karangmangu menggunakan lapisan abstraksi <code class="text-secondary-fixed bg-black/20 px-1 py-0.5 rounded">API.get()</code> dan <code class="text-secondary-fixed bg-black/20 px-1 py-0.5 rounded">API.post()</code>. Saat ini data tersimpan di LocalStorage browser secara mandiri.
+              </p>
+              <div class="p-3 rounded-xl bg-black/20 text-xs space-y-1 font-mono text-primary-fixed">
+                <div>Backend Siap: Google Apps Script Web App</div>
+                <div>Status: LocalStorage (Siap beralih ke Sheet)</div>
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <button onclick="switchAdminTab('settings')" class="w-full py-2.5 rounded-xl bg-secondary-container hover:bg-secondary-fixed text-on-secondary-fixed font-label-md font-bold transition-all shadow-sm">
+                Buka Pengaturan &amp; Cadangan Data
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 2: UNIVERSAL TABLE CRUD (News, Announcements, Teachers, Agenda, Gallery, Achievements, Messages) ================= -->
+      <div id="view-table-crud" class="hidden space-y-space-md">
+        <div class="bg-surface-container-lowest p-space-md sm:p-space-lg rounded-2xl border border-surface-container shadow-sm space-y-space-md">
+          <!-- Top Toolbar -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-space-sm">
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 class="font-headline-md text-headline-md text-on-surface font-bold mr-2" id="crud-table-title">Manajemen Entitas</h2>
+              <!-- Batch Actions -->
+              <div id="batch-action-bar" class="hidden items-center gap-2 px-3 py-1 rounded-lg bg-surface-container-high">
+                <span class="text-xs font-bold text-primary" id="batch-count-label">0 dipilih</span>
+                <button onclick="deleteSelectedBatch()" class="text-error hover:bg-error-container/40 px-2 py-0.5 rounded text-xs font-semibold flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[14px]">delete</span>
+                  <span>Hapus Terpilih</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <!-- Search Input -->
+              <div class="relative flex-1 sm:w-64">
+                <span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-[18px]">search</span>
+                <input type="text" id="crud-search-input" oninput="handleCrudSearch(this.value)" placeholder="Cari data..." class="w-full h-10 pl-10 pr-3 rounded-xl bg-surface-container-low text-on-surface font-body-sm outline-none focus:ring-2 focus:ring-primary"/>
+              </div>
+
+              <!-- Filter Kategori -->
+              <select id="crud-category-filter" onchange="handleCrudCategory(this.value)" class="h-10 px-3 rounded-xl bg-surface-container-low text-on-surface font-label-md outline-none focus:ring-2 focus:ring-primary cursor-pointer">
+                <option value="ALL">Semua Kategori</option>
+              </select>
+
+              <!-- Add Button -->
+              <button id="btn-add-entity" onclick="openCreateModal()" class="h-10 px-4 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-md font-semibold shadow-sm transition-all flex items-center gap-1.5 whitespace-nowrap">
+                <span class="material-symbols-outlined text-[18px]">add_circle</span>
+                <span>Tambah Data</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Data Table Wrapper -->
+          <div class="w-full overflow-x-auto rounded-xl border border-surface-container">
+            <table class="w-full text-left font-body-md text-body-md border-collapse">
+              <thead>
+                <tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-[12px] uppercase tracking-wider">
+                  <th class="py-3 px-4 w-10 text-center">
+                    <input type="checkbox" id="select-all-checkbox" onchange="toggleSelectAll(this)" class="w-4 h-4 rounded text-primary focus:ring-primary"/>
+                  </th>
+                  <th class="py-3 px-4">Media / Info</th>
+                  <th class="py-3 px-4">Judul / Entitas</th>
+                  <th class="py-3 px-4">Kategori</th>
+                  <th class="py-3 px-4">Waktu / Penulis</th>
+                  <th class="py-3 px-4 text-center">Status</th>
+                  <th class="py-3 px-4 text-right">Tindakan</th>
+                </tr>
+              </thead>
+              <tbody id="crud-table-tbody" class="divide-y divide-surface-container">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Empty State -->
+          <div id="crud-empty-state" class="hidden py-16 text-center">
+            <span class="material-symbols-outlined text-[48px] text-outline mb-2">folder_open</span>
+            <h4 class="font-headline-sm text-headline-sm text-on-surface">Belum ada data pada tabel ini</h4>
+            <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Gunakan tombol tambah data untuk membuat entri baru.</p>
+          </div>
+
+          <!-- Pagination / Count Footer -->
+          <div class="flex items-center justify-between pt-space-xs text-xs text-on-surface-variant">
+            <span id="crud-pagination-info">Menampilkan data</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 3: PPDB VERIFIKASI & PENGATURAN ================= -->
+      <div id="view-ppdb-module" class="hidden space-y-space-lg">
+        <!-- Pengaturan Kuota & Syarat PPDB -->
+        <div class="bg-surface-container-lowest p-space-lg rounded-2xl border border-surface-container shadow-sm space-y-space-md">
+          <div class="flex items-center justify-between border-b border-surface-container pb-space-sm">
+            <div>
+              <h2 class="font-headline-md text-headline-md text-on-surface font-bold">Konfigurasi Pembukaan PPDB</h2>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Atur status pendaftaran terbuka/tertutup, kuota, persyaratan, dan narasi PPDB.</p>
+            </div>
+          </div>
+
+          <form onsubmit="savePPDBConfig(event)" class="space-y-space-md">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-space-md">
+              <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl">
+                <input type="checkbox" id="ppdb-cfg-status" class="w-5 h-5 rounded text-primary focus:ring-primary"/>
+                <label for="ppdb-cfg-status" class="font-label-md text-on-surface font-bold cursor-pointer">Pendaftaran Terbuka</label>
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="font-label-md text-on-surface font-semibold">Tahun Pelajaran</label>
+                <input type="text" id="ppdb-cfg-tahun" class="h-11 px-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container" value="2025/2026"/>
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="font-label-md text-on-surface font-semibold">Total Kuota Kursi</label>
+                <input type="number" id="ppdb-cfg-kuota" class="h-11 px-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container" value="60"/>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+              <div class="flex flex-col gap-1">
+                <label class="font-label-md text-on-surface font-semibold">Persyaratan Berkas (Satu per baris)</label>
+                <textarea id="ppdb-cfg-syarat" rows="4" class="p-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container font-body-sm"></textarea>
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="font-label-md text-on-surface font-semibold">Nomor WhatsApp Panitia PPDB</label>
+                <input type="text" id="ppdb-cfg-kontak" class="h-11 px-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container" placeholder="+62 812-xxxx-xxxx"/>
+                <p class="text-xs text-on-surface-variant mt-1">Nomor ini ditampilkan pada tombol helpdesk dan kontak resmi PPDB.</p>
+              </div>
+            </div>
+
+            <button type="submit" class="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-md font-semibold transition-all shadow-sm">
+              Simpan Konfigurasi PPDB
+            </button>
+          </form>
+        </div>
+
+        <!-- Tabel Pendaftar Calon Siswa Masuk -->
+        <div class="bg-surface-container-lowest p-space-lg rounded-2xl border border-surface-container shadow-sm space-y-space-md">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <h3 class="font-headline-md text-headline-md text-on-surface font-bold">Data Pendaftar Calon Siswa Baru</h3>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Verifikasi berkas calon peserta didik yang mendaftar melalui website.</p>
+            </div>
+          </div>
+
+          <div class="w-full overflow-x-auto rounded-xl border border-surface-container">
+            <table class="w-full text-left font-body-md text-body-md border-collapse">
+              <thead>
+                <tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-[12px] uppercase">
+                  <th class="py-3 px-4">No. Registrasi</th>
+                  <th class="py-3 px-4">Nama Calon Siswa</th>
+                  <th class="py-3 px-4">Kelahiran</th>
+                  <th class="py-3 px-4">Orang Tua / Wali</th>
+                  <th class="py-3 px-4">Status</th>
+                  <th class="py-3 px-4 text-right">Tindakan</th>
+                </tr>
+              </thead>
+              <tbody id="ppdb-registrations-tbody" class="divide-y divide-surface-container">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 4: SETTINGS & BACKUP ================= -->
+      <div id="view-settings-module" class="hidden space-y-space-lg">
+        <div class="bg-surface-container-lowest p-space-lg rounded-2xl border border-surface-container shadow-sm space-y-space-md">
+          <div class="border-b border-surface-container pb-space-sm">
+            <h2 class="font-headline-md text-headline-md text-on-surface font-bold">Identitas &amp; Pengaturan Sekolah</h2>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">Ubah metadata resmi sekolah tanpa menyentuh kode HTML secara manual.</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-space-xl items-start">
+            <!-- Form Pengaturan Sekolah -->
+            <form onsubmit="saveGeneralSettings(event)" class="space-y-space-sm">
+              <div class="flex flex-col gap-1">
+                <label class="font-label-md text-on-surface font-semibold">Nama Singkat Sekolah</label>
+                <input type="text" id="cfg-nama-sekolah" class="h-11 px-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container" required/>
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="font-label-md text-on-surface font-semibold">Tagline / Semboyan</label>
+                <input type="text" id="cfg-tagline" class="h-11 px-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container" required/>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+                <div class="flex flex-col gap-1">
+                  <label class="font-label-md text-on-surface font-semibold">Telepon Kantor</label>
+                  <input type="text" id="cfg-telepon" class="h-11 px-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container"/>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <label class="font-label-md text-on-surface font-semibold">Nomor WhatsApp Sekolah</label>
+                  <input type="text" id="cfg-whatsapp" class="h-11 px-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container"/>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="font-label-md text-on-surface font-semibold">Email Resmi Sekolah</label>
+                <input type="email" id="cfg-email" class="h-11 px-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container"/>
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="font-label-md text-on-surface font-semibold">Alamat Lengkap</label>
+                <textarea id="cfg-alamat" rows="2" class="p-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container"></textarea>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+                <div class="flex flex-col gap-1">
+                  <label class="font-label-md text-on-surface font-semibold">Nama Kepala Sekolah</label>
+                  <input type="text" id="cfg-kepsek" class="h-11 px-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container"/>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <label class="font-label-md text-on-surface font-semibold">NIP Kepala Sekolah</label>
+                  <input type="text" id="cfg-nip-kepsek" class="h-11 px-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container"/>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="font-label-md text-on-surface font-semibold">Sambutan Kepala Sekolah</label>
+                <textarea id="cfg-sambutan" rows="3" class="p-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container"></textarea>
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="font-label-md text-on-surface font-semibold">Visi Sekolah</label>
+                <textarea id="cfg-visi" rows="2" class="p-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container"></textarea>
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="font-label-md text-on-surface font-semibold">5 Misi Utama (Satu per baris)</label>
+                <textarea id="cfg-misi" rows="4" class="p-3 rounded-xl bg-surface-container-low text-on-surface border border-surface-container"></textarea>
+              </div>
+
+              <div class="pt-2">
+                <button type="submit" class="px-6 py-3 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-lg font-semibold shadow-md transition-all">
+                  Simpan Identitas Sekolah
+                </button>
+              </div>
+            </form>
+
+            <!-- Panel Cadangan & Pemulihan JSON -->
+            <div class="p-space-lg rounded-2xl bg-surface-container-low border border-surface-container space-y-space-md">
+              <div class="space-y-1">
+                <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Cadangan Data (JSON)</h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                  Unduh seluruh database (Berita, Pengumuman, Guru, Agenda, Galeri, Prestasi, PPDB, Pesan, Pengaturan) dalam berkas JSON untuk arsip offline.
+                </p>
+              </div>
+
+              <div class="space-y-3 pt-2">
+                <button onclick="exportFullBackupJSON()" class="w-full h-11 px-4 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-primary font-label-md font-semibold border border-surface-container shadow-sm flex items-center justify-center gap-2 transition-all">
+                  <span class="material-symbols-outlined text-[20px]">download</span>
+                  <span>Unduh File Cadangan JSON</span>
+                </button>
+
+                <label class="w-full h-11 px-4 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md font-semibold border border-surface-container shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all">
+                  <span class="material-symbols-outlined text-[20px]">upload</span>
+                  <span>Pulihkan Data dari File JSON</span>
+                  <input type="file" accept=".json" class="hidden" onchange="handleImportBackupJSON(event)"/>
+                </label>
+              </div>
+
+              <div class="pt-space-md border-t border-surface-container-high space-y-2">
+                <h4 class="font-label-md text-error font-bold">Setel Ulang ke Setelan Pabrik</h4>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Kembalikan seluruh basis data ke kondisi awal SDN 2 Karangmangu.</p>
+                <button onclick="resetAllDataToDefault()" class="px-4 py-2 rounded-xl bg-error-container text-error hover:bg-error/20 font-label-md font-semibold transition-all">
+                  Reset Semua Data ke Default
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Universal CRUD Form Modal -->
+  <div id="modal-universal-form" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto">
+    <div class="w-full max-w-2xl bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="px-space-lg py-space-md bg-surface-container-low flex items-center justify-between border-b border-surface-container">
+        <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold" id="modal-entity-title">Form Data</h3>
+        <button onclick="closeFormModal()" class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface-variant flex items-center justify-center">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <form onsubmit="handleModalSubmit(event)" class="p-space-lg overflow-y-auto flex flex-col gap-space-md" id="universal-crud-form">
+        <div id="modal-fields-container" class="space-y-space-sm">
+          <!-- Dynamic Form Fields -->
+        </div>
+
+        <div class="flex items-center justify-end gap-space-xs pt-space-sm border-t border-surface-container">
+          <button type="button" onclick="closeFormModal()" class="px-5 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md">
+            Batal
+          </button>
+          <button type="submit" class="px-6 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-lg font-semibold shadow-sm">
+            Simpan Perubahan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Universal Delete Confirm Modal -->
+  <div id="modal-delete-confirm" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+    <div class="w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-2xl p-space-lg text-center space-y-space-md">
+      <div class="w-14 h-14 rounded-2xl bg-error-container text-error mx-auto flex items-center justify-center">
+        <span class="material-symbols-outlined text-[32px]">delete_forever</span>
+      </div>
+      <div>
+        <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Konfirmasi Hapus Data</h3>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mt-1" id="delete-modal-msg">Apakah Anda yakin ingin menghapus data ini?</p>
+      </div>
+      <div class="flex items-center justify-center gap-space-sm pt-2">
+        <button onclick="closeDeleteConfirmModal()" class="px-5 py-2 rounded-xl bg-surface-container text-on-surface font-label-md">
+          Batalkan
+        </button>
+        <button onclick="executeConfirmedDelete()" class="px-5 py-2 rounded-xl bg-error text-on-error font-label-md font-semibold shadow-sm hover:opacity-90">
+          Ya, Hapus Data
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/school.config.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>
