@@ -259,7 +259,7 @@ const TAB_SCHEMAS = {
       { name: "title", label: "Judul Pengumuman", type: "text", required: true },
       { name: "category", label: "Kategori Pengumuman", type: "select", options: ["PPDB", "Tata Tertib", "Libur Nasional", "Akademik", "Umum"] },
       { name: "date", label: "Tanggal Pengumuman", type: "date", required: true },
-      { name: "link", label: "Tautan Lampiran / Halaman Terkait", type: "text", placeholder: "/ppdb.html atau URL Google Drive" },
+      { name: "link", label: "Tautan Lampiran / Halaman Terkait", type: "text", placeholder: "ppdb.html atau URL Google Drive" },
       { name: "content", label: "Isi Rinci Pengumuman", type: "textarea", rows: 4, required: true },
       { name: "status", label: "Tayangkan di Portal", type: "checkbox", default: true }
     ]

@@ -871,7 +871,7 @@
                     <span class="font-label-sm text-label-sm text-on-surface-variant">${typeof formatDateIndo === 'function' ? formatDateIndo(item.date) : item.date}</span>
                   </div>
                   <h4 class="font-headline-sm text-headline-sm text-on-surface">
-                    <a href="${item.link && item.link.startsWith('/') ? item.link.slice(1) : (item.link || 'pengumuman.html')}" class="hover:text-primary transition-colors">${item.title}</a>
+                    <a href="${resolveInternalLink(item.link) || 'pengumuman.html'}" class="hover:text-primary transition-colors">${item.title}</a>
                   </h4>
                   <p class="font-body-sm text-body-sm text-on-surface-variant">${item.content}</p>
                 </div>

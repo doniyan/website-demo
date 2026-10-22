@@ -371,7 +371,7 @@
 
             ${item.link && item.link !== '#' ? `
               <div class="shrink-0 pt-2 md:pt-0 self-end md:self-center">
-                <a href="${item.link}" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-label-md font-semibold transition-colors">
+                <a href="${resolveInternalLink(item.link)}" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-label-md font-semibold transition-colors">
                   <span>Lihat Dokumen</span>
                   <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                 </a>

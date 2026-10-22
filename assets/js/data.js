@@ -4,6 +4,17 @@
  * Mendukung persistensi localStorage dan siap diintegrasikan dengan Google Sheets.
  */
 
+/**
+ * Tautan internal ditulis relatif ("ppdb.html"), bukan "/ppdb.html".
+ * Awalan "/" berarti "akar domain" sehingga rusak di GitHub Pages situs proyek
+ * (doniyan.github.io/nama-repo/) dan saat file dibuka langsung dari komputer.
+ * Data lama yang masih berisi "/ppdb.html" (mis. di Google Sheets) ikut diperbaiki di sini.
+ */
+function resolveInternalLink(url) {
+  const u = String(url || "").trim();
+  return /^\/(?!\/)/.test(u) ? u.slice(1) : u;
+}
+
 const DEFAULT_DATA = {
   siteConfig: SCHOOL_CONFIG.site,
 
@@ -152,7 +163,7 @@ const DEFAULT_DATA = {
       category: "PPDB",
       date: "2025-05-01",
       content: "Bagi calon wali murid yang telah mendaftar daring pada portal PPDB SDN 2 Karangmangu, mohon membawa berkas fisik berupa fotokopi Akta Kelahiran, Kartu Keluarga (KK), KTP Orang Tua, dan pas foto 3x4 (2 lembar) ke ruang panitia PPDB pada hari kerja pukul 08.00 - 12.00 WIB.",
-      link: "/ppdb.html",
+      link: "ppdb.html",
       status: true
     },
     {
