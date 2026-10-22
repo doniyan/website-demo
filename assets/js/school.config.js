@@ -20,7 +20,7 @@
 const SCHOOL_CONFIG = (() => {
   // ── 1. BACKEND (Google Apps Script + Google Sheets) ──────────────────────
   const backend = {
-    gasUrl: "https://script.google.com/macros/s/AKfycbxjskNwvD5540z-OW7M5ztiQm_hmACcnnC0Xgv1dsIcdRjhWsu5Yf5uz3CPGwa6bqsnug/exec",
+    gasUrl: "https://script.google.com/macros/s/AKfycbzwEXMnd7R7lrERXgaM0pi1bR47z_snsOzmDL7dRhmlc5lTykwBa1e6Ng6g2stZMOmMKQ/exec",
     useRemote: true // false = mode demo lokal (data hanya di browser)
   };
 

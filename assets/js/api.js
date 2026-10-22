@@ -23,6 +23,11 @@ function _remoteOn() {
   return !!(API_CONFIG.USE_REMOTE && API_CONFIG.GAS_URL);
 }
 
+// Petunjuk diagnosis: buka Console (F12) untuk melihat mode yang sedang dipakai halaman ini.
+if (typeof console !== "undefined" && console.info) {
+  console.info("[CMS] mode:", _remoteOn() ? "SERVER (…" + String(API_CONFIG.GAS_URL).slice(-10) + ")" : "DEMO LOKAL (tanpa backend)");
+}
+
 function _apiError(message, code) {
   const e = new Error(message);
   e.isApiError = true;

@@ -38,7 +38,7 @@ const Auth = {
     } else {
       await new Promise(resolve => setTimeout(resolve, 400));
       if (username.trim() !== AUTH_CONFIG.DEMO_USER || password !== AUTH_CONFIG.DEMO_PASS) {
-        return { success: false, message: "Nama pengguna atau kata sandi tidak cocok." };
+        return { success: false, message: "Nama pengguna atau kata sandi tidak cocok (MODE DEMO: backend belum tersambung, periksa backend.useRemote dan backend.gasUrl di school.config.js)." };
       }
       sessionData = {
         username: username.trim(),

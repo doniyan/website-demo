@@ -173,6 +173,7 @@ function onOpen() {
     SpreadsheetApp.getUi().createMenu("Admin Sekolah")
       .addItem("Siapkan lembar data", "menuSiapkanLembar")
       .addItem("Atur akun admin", "menuAturAkunAdmin")
+      .addItem("Cek akun admin", "menuCekAkunAdmin")
       .addItem("Cabut semua sesi login", "menuCabutSesi")
       .addToUi();
   } catch (e) { /* bukan konteks Sheets */ }
@@ -196,6 +197,25 @@ function menuAturAkunAdmin() {
   } catch (err) {
     ui.alert("Gagal: " + (err && err.message ? err.message : err));
   }
+}
+
+/** Ringkasan akun admin untuk diagnosis. Kata sandi TIDAK PERNAH ditampilkan (hanya hash yang tersimpan). */
+function describeAdminStatus_() {
+  var all = props_().getProperties();
+  if (!all.ADMIN_USER || !all.ADMIN_HASH) {
+    return "Akun admin BELUM diatur.\nJalankan: Admin Sekolah > Atur akun admin.";
+  }
+  return "Akun admin sudah diatur.\nNama pengguna terdaftar: " + all.ADMIN_USER +
+         "\n(Nama pengguna tidak peka huruf besar/kecil. Kata sandi tidak dapat ditampilkan; untuk mengganti, jalankan Atur akun admin.)" +
+         "\nVersi data: " + currentVersion_() +
+         "\nSpreadsheet: " + ss_().getName();
+}
+
+/** Bisa dijalankan dari editor Apps Script (hasil di Execution log) bila menu tidak tersedia. */
+function cekStatusAdmin() { Logger.log(describeAdminStatus_()); }
+
+function menuCekAkunAdmin() {
+  SpreadsheetApp.getUi().alert("Cek akun admin", describeAdminStatus_(), SpreadsheetApp.getUi().ButtonSet.OK);
 }
 
 function menuCabutSesi() {
